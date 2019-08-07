@@ -52,7 +52,7 @@ socket.on("message", message => {
   autoscroll();
 });
 
-socket.on("roomDate", ({ room, users }) => {
+socket.on("roomData", ({ room, users }) => {
   console.log(room, users);
   const html = Mustache.render(sidebarTemplate, {
     room,
