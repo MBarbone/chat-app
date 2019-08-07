@@ -18,7 +18,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 const publicDirectoryPath = path.join(__dirname, "../public");
 
 app.use(express.static(publicDirectoryPath));
@@ -42,7 +42,6 @@ io.on("connection", socket => {
         "message",
         generateMessage("Admin", `${user.username} has joined!`)
       );
-
     io.to(user.room).emit("roomData", {
       room: user.room,
       users: getUsersInRoom(user.room)
@@ -53,7 +52,6 @@ io.on("connection", socket => {
 
   socket.on("sendMessage", (message, callback) => {
     const user = getUser(socket.id);
-
     const filter = new Filter();
 
     if (filter.isProfane(message)) {
@@ -66,7 +64,6 @@ io.on("connection", socket => {
 
   socket.on("sendLocation", (coords, callback) => {
     const user = getUser(socket.id);
-
     io.to(user.room).emit(
       "locationMessage",
       generateLocationMessage(
@@ -93,6 +90,6 @@ io.on("connection", socket => {
   });
 });
 
-server.listen(port, () => {
-  console.log(`Server is up on port ${port}!`);
+server.listen(PORT, () => {
+  console.log(`Server listening on localhost:${PORT}!`);
 });
